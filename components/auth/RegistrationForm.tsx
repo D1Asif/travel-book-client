@@ -22,6 +22,8 @@ const schema = z.object({
     path: ["confirmPassword"], // set the path of the error
 });
 
+type TFormData = z.infer<typeof schema>;
+
 export default function RegistrationForm() {
     const [isVisiblePass, setIsVisiblePass] = useState(false);
     const [isVisibleConfirmPass, setIsVisibleConfirmPass] = useState(false);
@@ -30,11 +32,11 @@ export default function RegistrationForm() {
         register,
         handleSubmit,
         formState: { errors }
-    } = useForm({
+    } = useForm<TFormData>({
         resolver: zodResolver(schema)
     })
 
-    const onSubmit = (data) => {
+    const onSubmit = (data: TFormData) => {
         console.log(data); // Handle form submission here
     };
 

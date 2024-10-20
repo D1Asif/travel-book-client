@@ -23,7 +23,7 @@ export default function RootLayout({
             <body className={`${inter.className} min-h-screen`}>
                 <Providers>
                     <NavbarComponent />
-                    <div className="max-w-3xl mx-5 md:mx-auto my-5">
+                    <div className="max-w-3xl mx-5 md:mx-auto my-5 flex-1">
                         {children}
                     </div>
                 </Providers>

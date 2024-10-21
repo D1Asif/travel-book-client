@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function RegistrationPage() {
   return (
-    <div className="flex justify-center items-center min-w-[320px] h-full">
+    <div className="flex justify-center items-center h-full">
       <RegistrationForm />
     </div>
   )

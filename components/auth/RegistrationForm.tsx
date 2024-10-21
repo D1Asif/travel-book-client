@@ -6,6 +6,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { userSignup } from "@/actions";
+import { TUserData } from "@/actions/action.type";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const schema = z.object({
     name: z.string().min(1, "Name is required"),
@@ -27,6 +31,9 @@ type TFormData = z.infer<typeof schema>;
 export default function RegistrationForm() {
     const [isVisiblePass, setIsVisiblePass] = useState(false);
     const [isVisibleConfirmPass, setIsVisibleConfirmPass] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const router = useRouter();
 
     const {
         register,
@@ -36,12 +43,42 @@ export default function RegistrationForm() {
         resolver: zodResolver(schema)
     })
 
-    const onSubmit = (data: TFormData) => {
-        console.log(data); // Handle form submission here
+    const onSubmit = async (data: TFormData) => {
+        console.log(data);
+
+        const userData: TUserData = {
+            name: data.name,
+            email: data.email,
+            username: data.username,
+            phone: data.phone,
+            password: data.password,
+            role: "user"
+        }
+
+        setIsLoading(true);
+
+        const res = await userSignup(userData);
+
+        setIsLoading(false);
+
+        if (res?.success) {
+            router.push("/login");
+        } else {
+            toast('Something went wrong!',
+                {
+                    icon: '❌',
+                    style: {
+                        borderRadius: '10px',
+                        background: '#333',
+                        color: '#fff',
+                    },
+                }
+            );
+        }
     };
 
     return (
-        <form className="w-full flex flex-col gap-5 my-10" onSubmit={handleSubmit(onSubmit)}>
+        <form className="min-w-[320px] flex flex-col gap-5 my-10" onSubmit={handleSubmit(onSubmit)}>
             <h1 className="text-3xl font-semibold pb-4">Sign up 👋</h1>
             <Input
                 type="text"
@@ -139,7 +176,7 @@ export default function RegistrationForm() {
                 </div>
                 {errors.terms && <span className="text-red-500 text-sm">{errors?.terms?.message?.toString()}</span>}
             </div>
-            <Button color="primary" type="submit">Sign up</Button>
+            <Button color="primary" type="submit" isLoading={isLoading}>Sign up</Button>
             <Link href="/login" size="sm" className="cursor-pointer justify-center">
                 Already have an account? Log in
             </Link>

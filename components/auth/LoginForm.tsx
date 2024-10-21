@@ -10,7 +10,7 @@ export default function LoginForm() {
   const toggleVisibility = () => setIsVisible(!isVisible);
   
     return (
-        <form className="w-full flex flex-col gap-5">
+        <form className="min-w-[320px] flex flex-col gap-5">
             <h1 className="text-3xl font-semibold pb-4">Log In 👋</h1>
             <Input
                 type="email"

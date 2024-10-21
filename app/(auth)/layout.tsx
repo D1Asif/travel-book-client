@@ -24,7 +24,7 @@ export default function RootLayout({
             <body className={`${inter.className} min-h-screen`}>
                 <Toaster position="bottom-right" />
                 <Providers>
-                    <NavbarComponent />
+                    <NavbarComponent fromAuth={true} />
                     <div className="max-w-3xl px-5 mx-auto my-5 flex-1">
                         {children}
                     </div>

@@ -44,8 +44,6 @@ export default function RegistrationForm() {
     })
 
     const onSubmit = async (data: TFormData) => {
-        console.log(data);
-
         const userData: TUserData = {
             name: data.name,
             email: data.email,

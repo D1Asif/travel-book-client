@@ -9,6 +9,7 @@ export default async function RegistrationPage() {
   if (session?.user.token) {
     redirect("/");
   }
+  
   return (
     <div className="flex justify-center items-center h-full">
       <RegistrationForm />

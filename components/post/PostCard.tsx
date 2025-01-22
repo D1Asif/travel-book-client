@@ -1,37 +1,42 @@
 "use client"
 
-import { Card, CardHeader, CardBody, CardFooter, Avatar, Button } from "@nextui-org/react";
-import { ArrowFatDown, ArrowFatUp, DotsThreeOutline } from "@phosphor-icons/react";
+import { Card, CardHeader, CardBody, CardFooter, Avatar } from "@nextui-org/react";
+import { ArrowFatDown, ArrowFatUp } from "@phosphor-icons/react";
 import Image from "next/image";
+import PostDropdown from "./PostDropdown";
+import { TPost } from "../home/FeedComponent";
 
-export default function PostCard() {
+export default function PostCard({ postData }: { postData: TPost }) {
     return (
         <Card className="p-1">
             <CardHeader className="justify-between">
                 <div className="flex gap-5">
-                    <Avatar isBordered radius="full" size="md" src="https://nextui.org/avatars/avatar-1.png" />
+                    <Avatar isBordered radius="full" size="md" src={postData?.author?.profilePicture || ""} name={postData?.author?.name} />
                     <div className="flex flex-col gap-1 items-start justify-center">
-                        <h4 className="text-small font-semibold leading-none text-default-600">Zoey Lang</h4>
-                        <h5 className="text-small tracking-tight text-default-400">@zoeylang</h5>
+                        <h4 className="text-small font-semibold leading-none text-default-600">{postData?.author.name}</h4>
+                        <h5 className="text-small tracking-tight text-default-400">
+                            @{postData?.author.username}
+                        </h5>
                     </div>
                 </div>
-                <Button isIconOnly variant="light">
-                    <DotsThreeOutline weight="bold" />
-                </Button>
+                <PostDropdown />
             </CardHeader>
             <CardBody className="px-3 py-0 text-small text-default-400 cursor-pointer">
                 <p className="truncate">
-                    Frontend developer and UI/UX enthusiast. Join me on this coding adventure!
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Omnis officia mollitia ratione fugit numquam, ad sapiente. Exercitationem odio quasi voluptas, mollitia similique ex. Corrupti excepturi rerum voluptatibus unde blanditiis hic?
+                    {postData?.content}
                 </p>
-                <span className="pt-2">
-                    #FrontendWithZoey
-                </span>
+                <div className="pt-2 space-x-2">
+                    {
+                        postData?.tags.map((tag) => (
+                            <span key={tag}>#{tag}</span>
+                        ))
+                    }
+                </div>
                 <Image
                     width={600}
                     height={600}
-                    alt="NextUI hero Image"
-                    src="https://nextui.org/images/hero-card-complete.jpeg"
+                    alt="Post image"
+                    src={postData?.images[0]}
                     className="w-full h-full object-cover rounded-xl my-3"
                 />
             </CardBody>

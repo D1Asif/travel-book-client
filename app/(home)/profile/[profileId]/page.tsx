@@ -1,18 +1,17 @@
-import CreatePostModal from "@/components/post/CreatePostModal";
-import PostCard from "@/components/post/PostCard";
 import ProfileCard from "@/components/profile/ProfileCard";
+import ProfileTabs from "@/components/profile/ProfileTabs";
 
+interface ProfilePageProps {
+  params: {
+    profileId: string; // or number, depending on your profileId type
+  };
+}
 
-export default function ProfilePage() {
+export default function ProfilePage({ params: { profileId } }: ProfilePageProps) {
   return (
     <div className="space-y-7">
-      <ProfileCard />
-      <CreatePostModal />
-      <div className="flex flex-col gap-6 mt-8">
-        <PostCard />
-        <PostCard />
-        <PostCard />
-      </div>
+      <ProfileCard profileId={profileId} />
+      <ProfileTabs />
     </div>
   )
 }

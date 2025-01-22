@@ -1,25 +1,47 @@
-import { Avatar, Card } from "@nextui-org/react";
+import { fetchUserData } from "@/actions";
+import { auth } from "@/auth";
+import { Avatar, Button, Card } from "@nextui-org/react";
+import { SealCheck } from "@phosphor-icons/react/dist/ssr";
 
+type TProfileCardProps = {
+    profileId: string
+}
 
-export default function ProfileCard() {
+export default async function ProfileCard({ profileId }: TProfileCardProps) {
+    const session = await auth();
+    const isLoggedInUser = session?.user.data._id === profileId;
+    let userData  = null;
+
+    if (session?.user?.data) {
+        userData = session?.user?.data;
+    }
+
+    if (!isLoggedInUser) {
+        userData = await fetchUserData(profileId);
+    }
+
     return (
         <Card>
             <div className="h-[150px] bg-blue-800" />
             <Avatar className="h-20 w-20 -mt-10 mx-auto" />
             <div className="flex flex-col justify-center items-center gap-1 my-4">
-                <h2 className="font-semibold text-xl">Tony Reichert</h2>
-                <h4>@tony.reichert</h4>
+                <h2 className="font-semibold text-xl flex justify-center items-center gap-1">
+                    {userData?.username}
+                    <SealCheck size={22} color="#338EF7" weight="bold" />
+                </h2>
+                <h4>@{userData?.username}</h4>
                 <div className="flex justify-center gap-4">
                     <div className="flex gap-1">
-                        <p className="font-semibold text-default-400">123</p>
+                        <p className="font-semibold text-default-400">{userData?.followers?.length}</p>
                         <p className="text-default-400">Followers</p>
                     </div>
                     <div className="flex gap-1">
-                        <p className="font-semibold text-default-400">54</p>
+                        <p className="font-semibold text-default-400">{userData?.following?.length}</p>
                         <p className="text-default-400">Following</p>
                     </div>
                 </div>
             </div>
+            {!isLoggedInUser && <Button color="primary" className="max-w-10 mx-auto mb-4">Follow</Button>}
         </Card>
     )
 }

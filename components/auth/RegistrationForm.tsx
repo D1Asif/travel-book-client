@@ -62,6 +62,18 @@ export default function RegistrationForm() {
         if (res?.success) {
             router.push("/login");
         } else {
+            if (res?.message === 'Duplicate error') {
+                return toast(`${res.errorSources[0].path}: ${res.errorSources[0].message}`,
+                    {
+                        icon: '❌',
+                        style: {
+                            borderRadius: '10px',
+                            background: '#333',
+                            color: '#fff',
+                        },
+                    }
+                )
+            }
             toast('Something went wrong!',
                 {
                     icon: '❌',

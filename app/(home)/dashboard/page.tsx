@@ -1,7 +1,7 @@
 import { auth } from "@/auth"
 import AdminDashboard from "@/components/dashboard/AdminDashboard";
 import UserDashboard from "@/components/dashboard/UserDashboard";
-import { Spinner } from "@nextui-org/react";
+import { Spinner } from "@heroui/react";
 import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {

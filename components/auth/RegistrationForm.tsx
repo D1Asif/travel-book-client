@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Checkbox, Input, Link } from "@nextui-org/react";
+import { Button, Checkbox, Input, Link } from "@heroui/react";
 import { Eye, EyeSlash } from "@phosphor-icons/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";

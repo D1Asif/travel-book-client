@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Checkbox, Input, Link } from "@nextui-org/react";
+import { Button, Checkbox, Input, Link } from "@heroui/react";
 import { Eye, EyeSlash } from "@phosphor-icons/react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";

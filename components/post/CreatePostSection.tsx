@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, Card, CardBody, Input, useDisclosure } from "@nextui-org/react";
+import { Avatar, Card, CardBody, Input, useDisclosure } from "@heroui/react";
 import CreatePostModal from "./CreatePostModal";
 import { useSession } from "next-auth/react";
 

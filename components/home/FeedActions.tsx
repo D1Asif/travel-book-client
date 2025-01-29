@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input } from "@nextui-org/react";
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input } from "@heroui/react";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 
 export default function FeedActions() {

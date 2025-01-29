@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, useDisclosure } from "@nextui-org/react";
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, useDisclosure } from "@heroui/react";
 import { DotsThreeOutline } from "@phosphor-icons/react";
 import CreatePostModal from "./CreatePostModal";
 

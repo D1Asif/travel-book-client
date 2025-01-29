@@ -1,6 +1,6 @@
 import { fetchUserData } from "@/actions";
 import { auth } from "@/auth";
-import { Avatar, Button, Card } from "@nextui-org/react";
+import { Avatar, Button, Card } from "@heroui/react";
 import { SealCheck } from "@phosphor-icons/react/dist/ssr";
 
 type TProfileCardProps = {

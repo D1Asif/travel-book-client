@@ -1,4 +1,4 @@
-import { Button, Card, Input } from "@nextui-org/react";
+import { Button, Card, Input } from "@heroui/react";
 import { Envelope, Phone, User } from "@phosphor-icons/react";
 
 

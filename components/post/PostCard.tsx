@@ -1,13 +1,12 @@
 "use client"
 
-import { Card, CardHeader, CardBody, CardFooter, Avatar } from "@nextui-org/react";
+import { Card, CardHeader, CardBody, CardFooter, Avatar } from "@heroui/react";
 import { ArrowFatDown, ArrowFatUp } from "@phosphor-icons/react";
 import Image from "next/image";
 import PostDropdown from "./PostDropdown";
 import { TPost } from "../home/FeedComponent";
 
 export default function PostCard({ postData }: { postData: TPost }) {
-    console.log(postData);
     return (
         <Card className="p-1">
             <CardHeader className="justify-between">

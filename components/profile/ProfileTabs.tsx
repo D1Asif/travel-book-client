@@ -1,6 +1,6 @@
 "use client"
 
-import { Tab, Tabs } from "@nextui-org/react"
+import { Tab, Tabs } from "@heroui/react"
 import CreatePostSection from "../post/CreatePostSection"
 import PostCard from "../post/PostCard"
 import AboutTab from "./AboutTab"

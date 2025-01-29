@@ -1,9 +1,9 @@
 "use client";
 
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Switch } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Switch } from "@heroui/react";
 import TipTapEditor from "./TipTapEditor";
 import { useState } from "react";
-import type { UseDisclosureReturn } from '@nextui-org/use-disclosure';
+import type { UseDisclosureReturn } from "@heroui/use-disclosure";
 
 type TCreatePostModalsProps = {
     editingPostId?: string,

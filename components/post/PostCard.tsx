@@ -7,6 +7,7 @@ import PostDropdown from "./PostDropdown";
 import { TPost } from "../home/FeedComponent";
 
 export default function PostCard({ postData }: { postData: TPost }) {
+    console.log(postData);
     return (
         <Card className="p-1">
             <CardHeader className="justify-between">
@@ -46,7 +47,7 @@ export default function PostCard({ postData }: { postData: TPost }) {
                         <ArrowFatUp size={18} weight="fill" />
                     </p>
                     <p className=" text-default-400 text-small">
-                        13
+                        {postData?.upVotes.length}
                     </p>
                 </div>
                 <div className="flex gap-1">
@@ -54,11 +55,13 @@ export default function PostCard({ postData }: { postData: TPost }) {
                         <ArrowFatDown size={18} weight="fill" />
                     </p>
                     <p className=" text-default-400 text-small">
-                        3
+                        {postData?.downVotes.length}
                     </p>
                 </div>
                 <div className="flex gap-1">
-                    <p className="font-semibold text-default-400 text-small">97.1K</p>
+                    <p className="font-semibold text-default-400 text-small">
+                        {postData.comments.length}
+                    </p>
                     <p className="text-default-400 text-small">Comments</p>
                 </div>
             </CardFooter>

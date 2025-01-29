@@ -1,12 +1,7 @@
 import PostCard from "../post/PostCard";
 import FeedActions from "./FeedActions";
 import CreatePostSection from "../post/CreatePostSection";
-
-async function getPosts() {
-    const res = await fetch(`${process.env.API_URL}/posts`);
-    const posts = await res.json();
-    return posts;
-}
+import { getPosts } from "@/actions";
 
 export type TAuthor = {
     _id: string;
@@ -33,7 +28,6 @@ export type TPost = {
 
 export default async function FeedComponent() {
     const posts = await getPosts();
-    console.log(posts?.data);
 
     return (
         <>

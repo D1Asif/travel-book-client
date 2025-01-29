@@ -26,3 +26,10 @@ export async function fetchUserData(profileId: string): Promise<TUser | null> {
 
     return user.data;
 }
+
+export async function getPosts(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    const res = await fetch(`${process.env.API_URL}/posts${queryString ? `?${queryString}` : "" }`);
+    const posts = await res.json();
+    return posts;
+};

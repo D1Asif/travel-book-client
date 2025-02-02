@@ -1,9 +1,10 @@
 "use client";
 
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Switch } from "@heroui/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Switch, Card, CardBody } from "@heroui/react";
 import TipTapEditor from "./TipTapEditor";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { UseDisclosureReturn } from "@heroui/use-disclosure";
+import { ImageSquare  } from "@phosphor-icons/react";
 
 type TCreatePostModalsProps = {
     editingPostId?: string,
@@ -14,9 +15,14 @@ export default function CreatePostModal({ editingPostId, disclosure }: TCreatePo
     const { isOpen, onOpenChange } = disclosure;
     const [content, setContent] = useState<string>('');
     const [isPremium, setIsPremium] = useState(true);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const handleContentChange = (contentData: any) => {
-        setContent(contentData)
+        setContent(contentData);
+    }
+
+    const handleImageChange = () => {
+
     }
 
     return (
@@ -32,6 +38,26 @@ export default function CreatePostModal({ editingPostId, disclosure }: TCreatePo
                                 content={content}
                                 onChange={handleContentChange}
                             />
+                            <div className="flex">
+                                <Card className="mb-2">
+                                    <CardBody className="bg-primary-300">
+                                        <div
+                                            className="flex gap-3 items-center cursor-pointer"
+                                            onClick={() => fileInputRef.current?.click()}
+                                        >
+                                            <p>Add image to your post</p>
+                                            <ImageSquare size={24} />
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                className="hidden"
+                                                ref={fileInputRef}
+                                                onChange={handleImageChange}
+                                            />
+                                        </div>
+                                    </CardBody>
+                                </Card>
+                            </div>
                             <Switch isSelected={isPremium} onValueChange={setIsPremium}>
                                 Premium Post
                             </Switch>

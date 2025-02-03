@@ -1,3 +1,5 @@
+"use client"
+
 import CircleChartCard, { CircleChartProps } from "./CircleChartCard";
 
 const data: CircleChartProps[] = [

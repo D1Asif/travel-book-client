@@ -1,6 +1,6 @@
 "use client"
 
-import { Tab, Tabs } from "@heroui/react"
+import { Spinner, Tab, Tabs } from "@heroui/react"
 import CreatePostSection from "../post/CreatePostSection"
 import PostCard from "../post/PostCard"
 import AboutTab from "./AboutTab"
@@ -11,12 +11,20 @@ import { useParams } from "next/navigation"
 
 export default function ProfileTabs() {
     const [profilePosts, setProfilePosts] = useState([]);
+    const [loading, setLoading] = useState(true);
     const { profileId } = useParams();
 
     useEffect(() => {
         const getProfilePosts = async () => {
-            const posts = await getPosts({ author: profileId });
-            setProfilePosts(posts?.data);
+            try {
+                setLoading(true); // ✅ Set loading before fetching
+                const posts = await getPosts({ author: profileId });
+                setProfilePosts(posts?.data || []);
+            } catch (error) {
+                console.error("Error fetching profile posts:", error);
+            } finally {
+                setLoading(false); // ✅ Ensure loading stops after fetch
+            }
         };
 
         getProfilePosts();
@@ -29,17 +37,22 @@ export default function ProfileTabs() {
                     <div className="mt-3">
                         <CreatePostSection />
                         <div className="flex flex-col gap-6 mt-8">
+                            {loading && (
+                                <div className="my-5 mx-auto">
+                                    <Spinner />
+                                </div>
+                            )}
                             {
                                 profilePosts.length !== 0 ? (
                                     profilePosts.map((postData: TPost) => (
                                         <PostCard key={postData?._id} postData={postData} />
                                     ))
-                                ) 
-                                : (
-                                    <div className="text-center text-2xl py-3">
-                                        No posts found!
-                                    </div>
                                 )
+                                    : (
+                                        !loading && <div className="text-center text-2xl py-3">
+                                            No posts found!
+                                        </div>
+                                    )
                             }
                         </div>
                     </div>

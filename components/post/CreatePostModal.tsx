@@ -2,11 +2,13 @@
 
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Switch, Card, CardBody } from "@heroui/react";
 import TipTapEditor from "./TipTapEditor";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { UseDisclosureReturn } from "@heroui/use-disclosure";
 import { ImageSquare } from "@phosphor-icons/react";
 import toast from "react-hot-toast";
 import Image from "next/image";
+import { createNewPost, getPostById, UpdatePost } from "@/actions";
+import { useRouter } from "next/navigation";
 
 type TCreatePostModalsProps = {
     editingPostId?: string,
@@ -19,6 +21,21 @@ export default function CreatePostModal({ editingPostId, disclosure }: TCreatePo
     const [isPremium, setIsPremium] = useState(true);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const router = useRouter();
+
+    useEffect(() => {
+        const getPost = async () => {
+            if (!editingPostId) return;
+
+            const result = await getPostById(editingPostId);
+            if (result.success) {
+                setContent(result.data.content);
+                setImagePreview(result.data.images?.[0] ?? null);
+                setIsPremium(result.data.isPremium);
+            }
+        }
+        getPost();
+    }, [editingPostId]);
 
     const handleContentChange = (contentData: any) => {
         setContent(contentData);
@@ -31,8 +48,6 @@ export default function CreatePostModal({ editingPostId, disclosure }: TCreatePo
             return;
         }
 
-        console.log(file?.type);
-
         if (!file?.type.startsWith("image/")) {
             toast.error("Please select an image file");
         };
@@ -42,6 +57,53 @@ export default function CreatePostModal({ editingPostId, disclosure }: TCreatePo
             setImagePreview(reader.result as string);
         };
         reader.readAsDataURL(file);
+    }
+
+    const handleCreateOrSavePost = async () => {
+        let imageUrl = imagePreview;
+
+        if (fileInputRef.current?.files?.[0]) {
+            const formData = new FormData();
+            formData.append("file", fileInputRef.current.files[0]); // Actual file
+            formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET as string);
+
+            try {
+                const response = await fetch(
+                    `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+                    {
+                        method: "POST",
+                        body: formData,
+                    }
+                );
+
+                const data = await response.json();
+                if (data.secure_url) {
+                    imageUrl = data.secure_url; // Cloudinary-hosted image URL
+                } else {
+                    throw new Error("Image upload failed");
+                }
+            } catch (error) {
+                toast.error("Image upload failed");
+                console.log(error);
+                return;
+            }
+        }
+
+        // Send post data to backend
+        const postData = {
+            content,
+            images: imageUrl ? [imageUrl] : [], // Uploaded Cloudinary image URL
+            isPremium,
+        };
+
+        const res = editingPostId ? await UpdatePost(editingPostId, postData) : await createNewPost(postData);
+
+        if (res?.success) {
+            toast.success(res?.message || "Success!");
+            router.refresh();
+        } else {
+            toast.error(res?.message || "Error!");
+        }
     }
 
     return (
@@ -102,7 +164,10 @@ export default function CreatePostModal({ editingPostId, disclosure }: TCreatePo
                             <Button color="danger" variant="light" onPress={onClose}>
                                 Close
                             </Button>
-                            <Button color="primary" onPress={onClose}>
+                            <Button color="primary" onPress={() => {
+                                onClose();
+                                handleCreateOrSavePost();
+                            }}>
                                 {editingPostId ? "Save" : "Post"}
                             </Button>
                         </ModalFooter>

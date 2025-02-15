@@ -1,6 +1,8 @@
 "use server"
 
-import { TUser, TUserData } from "./action.type";
+import { auth } from "@/auth";
+import { TPost, TUser, TUserData } from "./action.type";
+import { revalidatePath } from "next/cache";
 
 export const userSignup = async (userData: TUserData) => {
     const res = await fetch(`${process.env.API_URL}/auth/signup`, {
@@ -10,9 +12,9 @@ export const userSignup = async (userData: TUserData) => {
         },
         body: JSON.stringify(userData)
     });
-    
+
     const result = await res.json();
-    
+
     return result;
 }
 
@@ -29,7 +31,86 @@ export async function fetchUserData(profileId: string): Promise<TUser | null> {
 
 export async function getPosts(params = {}) {
     const queryString = new URLSearchParams(params).toString();
-    const res = await fetch(`${process.env.API_URL}/posts${queryString ? `?${queryString}` : "" }`);
+    const res = await fetch(`${process.env.API_URL}/posts${queryString ? `?${queryString}` : ""}`, {cache: "no-store"});
     const posts = await res.json();
     return posts;
 };
+
+export async function getPostById(postId: string) {
+    const res = await fetch(`${process.env.API_URL}/posts/${postId}`);
+    const post = await res.json();
+    return post;
+}
+
+export async function createNewPost(postData: TPost) {
+    try {
+        const session = await auth();
+        const url = `${process.env.API_URL}/posts`;
+
+        if (!session?.user.token) {
+            return { success: false }
+        }
+
+        const res = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user.token}`
+            },
+            body: JSON.stringify(postData)
+        });
+
+        const result = await res.json();
+
+        if (res.status === 200) {
+            revalidatePath("/posts");
+            return {
+                success: true,
+                message: "Post successfully created"
+            }
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            message: "Post creation failed"
+        }
+    }
+}
+
+export async function UpdatePost(editingPostId: string, postData: Partial<TPost>) {
+    const session = await auth();
+
+    try {
+        const url = `${process.env.API_URL}/posts/${editingPostId}`;
+
+        const res = await fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user.token}`
+            },
+            body: JSON.stringify(postData)
+        });
+
+        const result = await res.json();
+
+        if (res.status === 200) {
+            revalidatePath("/posts");
+            return {
+                success: true,
+                message: "Post updated successfully"
+            }
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            message: "Post update failed!"
+        }
+    }
+}

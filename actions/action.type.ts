@@ -19,3 +19,9 @@ export type TUser = {
     following: string,
     followers: string
 }
+
+export type TPost = {
+    content: string;
+    images: string[]; // Array of image URLs
+    isPremium: boolean;
+}

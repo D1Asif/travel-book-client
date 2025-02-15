@@ -4,7 +4,7 @@ import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, useDiscl
 import { DotsThreeOutline } from "@phosphor-icons/react";
 import CreatePostModal from "./CreatePostModal";
 
-export default function PostDropdown() {
+export default function PostDropdown({ editingPostId }: {editingPostId: string}) {
     const editModalDisclosure = useDisclosure();
 
     return (
@@ -30,7 +30,7 @@ export default function PostDropdown() {
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
-            <CreatePostModal editingPostId="123" disclosure={editModalDisclosure} />
+            <CreatePostModal editingPostId={editingPostId} disclosure={editModalDisclosure} />
         </>
     )
 }

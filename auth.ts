@@ -5,6 +5,10 @@ import { AdapterUser } from "next-auth/adapters";
 import { UserResponse } from "./types/next-auth";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+    session: {
+        strategy: "jwt",
+        maxAge: 24 * 60 * 60
+    },
     providers: [
         Credentials({
             credentials: {

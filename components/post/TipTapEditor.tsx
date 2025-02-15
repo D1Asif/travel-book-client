@@ -5,13 +5,14 @@ import StarterKit from '@tiptap/starter-kit'
 import TipTapToolbar from './TipTapToolbar'
 import Underline from '@tiptap/extension-underline'
 
-const TipTapEditor = ({ onChange }: any) => {
+const TipTapEditor = ({ onChange, content }: any) => {
     const handleChange = (newContent: string) => {
         onChange(newContent)
     }
 
     const editor = useEditor({
         extensions: [StarterKit, Underline],
+        content,
         editorProps: {
             attributes: {
                 class:

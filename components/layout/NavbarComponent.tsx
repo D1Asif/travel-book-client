@@ -73,7 +73,7 @@ export default function NavbarComponent({ fromAuth }: { fromAuth?: boolean }) {
                                             <Button
                                                 color="danger"
                                                 variant="flat"
-                                                onClick={() => signOut()}
+                                                onPress={() => signOut()}
                                             >
                                                 Log out
                                             </Button>

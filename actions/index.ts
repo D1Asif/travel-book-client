@@ -114,3 +114,37 @@ export async function UpdatePost(editingPostId: string, postData: Partial<TPost>
         }
     }
 }
+
+export async function deletePost(editingPostId: string) {
+    const session = await auth();
+
+    try {
+        const url = `${process.env.API_URL}/posts/${editingPostId}`;
+
+        const res = await fetch(url, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user.token}`
+            },
+        });
+
+        const result = await res.json();
+
+        if (res.status === 200) {
+            revalidatePath("/posts");
+            return {
+                success: true,
+                message: "Post deleted successfully"
+            }
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            message: "Post deletion failed!"
+        }
+    }
+}

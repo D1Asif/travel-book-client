@@ -8,7 +8,6 @@ import { ImageSquare } from "@phosphor-icons/react";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import { createNewPost, getPostById, UpdatePost } from "@/actions";
-import { useRouter } from "next/navigation";
 
 type TCreatePostModalsProps = {
     editingPostId?: string,
@@ -21,7 +20,6 @@ export default function CreatePostModal({ editingPostId, disclosure }: TCreatePo
     const [isPremium, setIsPremium] = useState(true);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
-    const router = useRouter();
 
     useEffect(() => {
         const getPost = async () => {
@@ -100,7 +98,9 @@ export default function CreatePostModal({ editingPostId, disclosure }: TCreatePo
 
         if (res?.success) {
             toast.success(res?.message || "Success!");
-            router.refresh();
+            setContent('');
+            setImagePreview(null);
+            setIsPremium(true);
         } else {
             toast.error(res?.message || "Error!");
         }

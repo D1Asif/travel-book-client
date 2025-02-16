@@ -39,6 +39,7 @@ export default function NavbarComponent({ fromAuth }: { fromAuth?: boolean }) {
                             height={50}
                             width={110}
                             alt="Logo"
+                            className="h-auto"
                         />
                     </Link>
                 </NavbarBrand>

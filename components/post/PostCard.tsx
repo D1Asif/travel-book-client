@@ -7,47 +7,57 @@ import PostDropdown from "./PostDropdown";
 import { TPost } from "../home/FeedComponent";
 import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
+import { useSession } from "next-auth/react"
 
 export default function PostCard({ postData }: { postData: TPost }) {
+    const { data: session } = useSession();
+    const isOwnPost = session?.user?.data?._id === postData?.author?._id;
+
     return (
         <Card className="p-1">
             <CardHeader className="justify-between">
                 <div className="flex gap-5">
-                    <Link href={`/profile/${postData?.author._id}`}>
+                    <Link href={`/profile/${postData?.author?._id}`}>
                         <Avatar isBordered radius="full" size="md" src={postData?.author?.profilePicture || ""} name={postData?.author?.name} />
                     </Link>
                     <div className="flex flex-col gap-1 items-start justify-center">
-                        <Link href={`/profile/${postData?.author._id}`}>
-                            <h4 className="text-small font-semibold leading-none text-default-600">{postData?.author.name}</h4>
+                        <Link href={`/profile/${postData?.author?._id}`}>
+                            <h4 className="text-small font-semibold leading-none text-default-600">{postData?.author?.name}</h4>
                         </Link>
-                        <Link href={`/profile/${postData?.author._id}`}>
+                        <Link href={`/profile/${postData?.author?._id}`}>
                             <h5 className="text-small tracking-tight text-default-400">
-                                @{postData?.author.username}
+                                @{postData?.author?.username}
                             </h5>
                         </Link>
                     </div>
                 </div>
-                <PostDropdown editingPostId={postData?._id} />
+                {
+                    isOwnPost && (
+                        <PostDropdown editingPostId={postData?._id} />
+                    )
+                }
             </CardHeader>
             <CardBody className="px-3 py-0 text-small text-default-400 cursor-pointer">
-                <div className="truncate" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(postData?.content)}}>
-                </div>
-                <div className="pt-2 space-x-2">
-                    {
-                        postData?.tags.map((tag) => (
-                            <span key={tag}>#{tag}</span>
-                        ))
-                    }
-                </div>
-                {postData?.images[0] && (
-                    <Image
-                        width={600}
-                        height={600}
-                        alt="Post image"
-                        src={postData?.images[0]}
-                        className="w-full h-full object-cover rounded-xl my-3"
-                    />
-                )}
+                <Link href={`/posts/${postData._id}`}>
+                    <div className="truncate" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(postData?.content) }}>
+                    </div>
+                    <div className="pt-2 space-x-2">
+                        {
+                            postData?.tags?.map((tag) => (
+                                <span key={tag}>#{tag}</span>
+                            ))
+                        }
+                    </div>
+                    {postData?.images?.[0] && (
+                        <Image
+                            width={600}
+                            height={600}
+                            alt="Post image"
+                            src={postData?.images[0]}
+                            className="w-full h-auto object-cover rounded-xl my-3"
+                        />
+                    )}
+                </Link>
             </CardBody>
             <CardFooter className="gap-3">
                 <div className="flex gap-1">
@@ -55,7 +65,7 @@ export default function PostCard({ postData }: { postData: TPost }) {
                         <ArrowFatUp size={18} weight="fill" />
                     </p>
                     <p className=" text-default-400 text-small">
-                        {postData?.upVotes.length}
+                        {postData?.upVotes?.length}
                     </p>
                 </div>
                 <div className="flex gap-1">
@@ -63,14 +73,14 @@ export default function PostCard({ postData }: { postData: TPost }) {
                         <ArrowFatDown size={18} weight="fill" />
                     </p>
                     <p className=" text-default-400 text-small">
-                        {postData?.downVotes.length}
+                        {postData?.downVotes?.length}
                     </p>
                 </div>
                 <div className="flex gap-1">
                     <p className="font-semibold text-default-400 text-small">
-                        {postData.comments.length}
+                        {postData?.comments?.length}
                     </p>
-                    <p className="text-default-400 text-small">Comments</p>
+                    <Link href={`/posts/${postData?._id}`} className="text-default-400 text-small">Comments</Link>
                 </div>
             </CardFooter>
         </Card>

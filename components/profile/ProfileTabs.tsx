@@ -8,6 +8,7 @@ import { TPost } from "../home/FeedComponent"
 import { useEffect, useState } from "react"
 import { getPosts } from "@/actions"
 import { useParams } from "next/navigation"
+import SubscriptionTab from "./SubscriptionTab"
 
 export default function ProfileTabs() {
     const [profilePosts, setProfilePosts] = useState([]);
@@ -61,7 +62,7 @@ export default function ProfileTabs() {
                     <AboutTab />
                 </Tab>
                 <Tab key="subscription" title="Subscription">
-
+                    <SubscriptionTab />
                 </Tab>
             </Tabs>
         </div>

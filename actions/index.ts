@@ -29,9 +29,44 @@ export async function fetchUserData(profileId: string): Promise<TUser | null> {
     return user.data;
 }
 
+export async function updateUserData(updatedUserData: Partial<TUser>) {
+    const session = await auth();
+
+    try {
+        const url = `${process.env.API_URL}/users/${session?.user?.data?._id}`;
+
+        const res = await fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user.token}`
+            },
+            body: JSON.stringify(updatedUserData)
+        });
+
+        const result = await res.json();
+
+        if (res.status === 200) {
+            revalidatePath("/users");
+            return {
+                success: true,
+                message: "User updated successfully"
+            }
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            message: "User update failed!"
+        }
+    }
+}
+
 export async function getPosts(params = {}) {
     const queryString = new URLSearchParams(params).toString();
-    const res = await fetch(`${process.env.API_URL}/posts${queryString ? `?${queryString}` : ""}`, {cache: "no-store"});
+    const res = await fetch(`${process.env.API_URL}/posts${queryString ? `?${queryString}` : ""}`, { cache: "no-store" });
     const posts = await res.json();
     return posts;
 };

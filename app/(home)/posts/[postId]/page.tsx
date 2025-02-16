@@ -1,6 +1,12 @@
+import { getPostById } from "@/actions"
+import PostCard from "@/components/post/PostCard";
 
-export default function PostDetailsPage() {
+export default async function PostDetailsPage({ params }: { params: { postId: string } }) {
+    const postData = await getPostById(params.postId);
+
     return (
-        <div>PostDetailsPage</div>
+        <div>
+            <PostCard postData={postData.data} />
+        </div>
     )
 }

@@ -1,4 +1,4 @@
-import { fetchUserData, updateUserData } from "@/actions";
+import { fetchUserData, updateUser } from "@/actions";
 import { TUser } from "@/actions/action.type";
 import { Button, Card, Input, Skeleton, Spinner } from "@heroui/react";
 import { At, Envelope, Phone, User } from "@phosphor-icons/react";
@@ -51,7 +51,7 @@ export default function AboutTab() {
                 return toast.error("Username need to be minimum 1 character");
             }
 
-            const res = await updateUserData(updatedUserData);
+            const res = await updateUser(updatedUserData);
 
             if (res.success) {
                 toast.success(res.message);

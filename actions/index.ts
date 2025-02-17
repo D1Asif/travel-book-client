@@ -29,7 +29,7 @@ export async function fetchUserData(profileId: string): Promise<TUser | null> {
     return user.data;
 }
 
-export async function updateUserData(updatedUserData: Partial<TUser>) {
+export async function updateUser(updatedUserData: Partial<TUser>) {
     const session = await auth();
 
     try {

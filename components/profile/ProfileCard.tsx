@@ -1,7 +1,8 @@
 import { fetchUserData } from "@/actions";
 import { auth } from "@/auth";
-import { Avatar, Button, Card } from "@heroui/react";
+import { Button, Card } from "@heroui/react";
 import { SealCheck } from "@phosphor-icons/react/dist/ssr";
+import ProfilePic from "./ProfilePic";
 
 type TProfileCardProps = {
     profileId: string
@@ -10,20 +11,13 @@ type TProfileCardProps = {
 export default async function ProfileCard({ profileId }: TProfileCardProps) {
     const session = await auth();
     const isLoggedInUser = session?.user.data._id === profileId;
-    let userData  = null;
-
-    if (session?.user?.data) {
-        userData = session?.user?.data;
-    }
-
-    if (!isLoggedInUser) {
-        userData = await fetchUserData(profileId);
-    }
+    
+    const userData = await fetchUserData(profileId);
 
     return (
         <Card>
             <div className="h-[150px] bg-blue-800" />
-            <Avatar className="h-20 w-20 -mt-10 mx-auto" />
+            <ProfilePic profilePic={userData?.profilePicture || ""} />
             <div className="flex flex-col justify-center items-center gap-1 my-4">
                 <h2 className="font-semibold text-xl flex justify-center items-center gap-1">
                     {userData?.username}

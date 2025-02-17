@@ -8,6 +8,7 @@ import { ImageSquare } from "@phosphor-icons/react";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import { createNewPost, getPostById, UpdatePost } from "@/actions";
+import { uploadImageToCloudinary } from "@/lib/utils";
 
 type TCreatePostModalsProps = {
     editingPostId?: string,
@@ -61,30 +62,13 @@ export default function CreatePostModal({ editingPostId, disclosure }: TCreatePo
         let imageUrl = imagePreview;
 
         if (fileInputRef.current?.files?.[0]) {
-            const formData = new FormData();
-            formData.append("file", fileInputRef.current.files[0]); // Actual file
-            formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET as string);
+            const res = await uploadImageToCloudinary(fileInputRef.current.files[0]);
 
-            try {
-                const response = await fetch(
-                    `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-                    {
-                        method: "POST",
-                        body: formData,
-                    }
-                );
-
-                const data = await response.json();
-                if (data.secure_url) {
-                    imageUrl = data.secure_url; // Cloudinary-hosted image URL
-                } else {
-                    throw new Error("Image upload failed");
-                }
-            } catch (error) {
-                toast.error("Image upload failed");
-                console.log(error);
-                return;
+            if (res === null) {
+                return toast.error("Image upload failed");
             }
+
+            imageUrl = res;
         }
 
         // Send post data to backend

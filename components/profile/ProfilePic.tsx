@@ -4,6 +4,7 @@ import { updateUser } from "@/actions";
 import { uploadImageToCloudinary } from "@/lib/utils";
 import { Avatar } from "@heroui/react";
 import { Camera } from "@phosphor-icons/react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -12,6 +13,7 @@ export default function ProfilePic({ profilePic }: { profilePic: string }) {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [preview, setPreview] = useState<string | null>(null);
     const [isUploading, setIsUploading] = useState(false);
+    const { update } = useSession();
 
     const handleIconClick = () => {
         fileInputRef.current?.click();
@@ -36,6 +38,7 @@ export default function ProfilePic({ profilePic }: { profilePic: string }) {
 
                 if (res.success) {
                     toast.success("Profile picture updated!");
+                    update({ profilePic: imageUrl });
                 } else {
                     toast.error("Error occurred in profile picture update");
                 }
@@ -46,6 +49,7 @@ export default function ProfilePic({ profilePic }: { profilePic: string }) {
             reader.readAsDataURL(file);
         }
     };
+
     return (
         <div className="relative w-20 h-20 mx-auto -mt-10">
             {preview ? (

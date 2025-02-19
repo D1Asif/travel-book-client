@@ -1,10 +1,12 @@
 "use client"
 
+import { fetchUserData } from "@/actions";
+import { TUser } from "@/actions/action.type";
 import { Avatar, Button, Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from "@heroui/react";
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function NavbarComponent({ fromAuth }: { fromAuth?: boolean }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,6 +26,17 @@ export default function NavbarComponent({ fromAuth }: { fromAuth?: boolean }) {
     ];
 
     const { data: session, status } = useSession();
+    const [user, setUser] = useState<TUser | null>(null);
+
+    useEffect(() => {
+        const getUser = async () => {
+            if (session?.user.data._id) {
+                const res = await fetchUserData(session?.user.data._id);
+                setUser(res);
+            }
+        };
+        getUser();
+    }, [session?.user.data._id]);
 
     return (
         <Navbar onMenuOpenChange={setIsMenuOpen} maxWidth="2xl" isBordered>
@@ -65,9 +78,9 @@ export default function NavbarComponent({ fromAuth }: { fromAuth?: boolean }) {
                                     <>
                                         <Link href={`/profile/${session.user.data._id}`}>
                                             <Avatar
-                                                showFallback
-                                                src={session?.user?.data?.profilePicture}
-                                                name={session?.user?.data.name}
+                                                src={user?.profilePicture}
+                                                name={user?.name}
+                                                className="[&>*]:opacity-100"
                                             />
                                         </Link>
                                         <NavbarItem>

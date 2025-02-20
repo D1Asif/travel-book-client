@@ -183,3 +183,31 @@ export async function deletePost(editingPostId: string) {
         }
     }
 }
+
+export async function toggleFollow(userId: string, isFollowing: boolean) {
+    const session = await auth();
+
+    try {
+        const res = await fetch(`${process.env.API_URL}/users/${userId}/${isFollowing ? "unfollow" : "follow"}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user.token}`
+            }
+        });
+
+        const result = await res.json();
+
+        if (res.status === 200) {
+            revalidatePath("/users");
+            return {
+                success: true
+            }
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error) {
+        console.log(error);
+        return { success: false, error: "Failed to update follow status" };
+    }
+}

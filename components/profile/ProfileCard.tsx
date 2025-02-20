@@ -1,8 +1,9 @@
 import { fetchUserData } from "@/actions";
 import { auth } from "@/auth";
-import { Button, Card } from "@heroui/react";
+import { Card } from "@heroui/react";
 import { SealCheck } from "@phosphor-icons/react/dist/ssr";
 import ProfilePic from "./ProfilePic";
+import FollowButton from "./FollowButton";
 
 type TProfileCardProps = {
     profileId: string
@@ -11,7 +12,7 @@ type TProfileCardProps = {
 export default async function ProfileCard({ profileId }: TProfileCardProps) {
     const session = await auth();
     const isLoggedInUser = session?.user.data._id === profileId;
-    
+
     const userData = await fetchUserData(profileId);
 
     return (
@@ -35,7 +36,9 @@ export default async function ProfileCard({ profileId }: TProfileCardProps) {
                     </div>
                 </div>
             </div>
-            {!isLoggedInUser && <Button color="primary" className="max-w-10 mx-auto mb-4">Follow</Button>}
+            {!isLoggedInUser && (
+                <FollowButton userId={profileId} isFollowing={userData?.followers.includes(session?.user.data._id ?? "") || false} />
+            )}
         </Card>
     )
 }

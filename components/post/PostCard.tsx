@@ -1,13 +1,13 @@
 "use client"
 
 import { Card, CardHeader, CardBody, CardFooter, Avatar } from "@heroui/react";
-import { ArrowFatDown, ArrowFatUp } from "@phosphor-icons/react";
 import Image from "next/image";
 import PostDropdown from "./PostDropdown";
 import { TPost } from "../home/FeedComponent";
 import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
 import { useSession } from "next-auth/react"
+import VoteButtons from "./VoteButtons";
 
 export default function PostCard({ postData }: { postData: TPost }) {
     const { data: session } = useSession();
@@ -60,22 +60,11 @@ export default function PostCard({ postData }: { postData: TPost }) {
                 </Link>
             </CardBody>
             <CardFooter className="gap-3">
-                <div className="flex gap-1">
-                    <p className="font-semibold text-default-400 text-small cursor-pointer">
-                        <ArrowFatUp size={18} weight="fill" />
-                    </p>
-                    <p className=" text-default-400 text-small">
-                        {postData?.upVotes?.length}
-                    </p>
-                </div>
-                <div className="flex gap-1">
-                    <p className="font-semibold text-default-400 text-small cursor-pointer">
-                        <ArrowFatDown size={18} weight="fill" />
-                    </p>
-                    <p className=" text-default-400 text-small">
-                        {postData?.downVotes?.length}
-                    </p>
-                </div>
+                <VoteButtons
+                    postId={postData._id}
+                    upVotes={postData.upVotes}
+                    downVotes={postData.downVotes}
+                />
                 <div className="flex gap-1">
                     <p className="font-semibold text-default-400 text-small">
                         {postData?.comments?.length}

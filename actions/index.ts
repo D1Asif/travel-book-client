@@ -211,3 +211,31 @@ export async function toggleFollow(userId: string, isFollowing: boolean) {
         return { success: false, error: "Failed to update follow status" };
     }
 }
+
+export async function toggleVotes(voteType: "up" | "down", postId: string) {
+    const session = await auth();
+
+    try {
+        const res = await fetch(`${process.env.API_URL}/posts/${postId}/${voteType === "up" ? "upvote" : "downvote"}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user.token}`
+            }
+        });
+
+        const result = await res.json();
+
+        if (res.status === 200) {
+            revalidatePath("/posts");
+            return {
+                success: true
+            }
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error) {
+        console.log(error);
+        return { success: false, error: "Failed to update vote status" };
+    }
+}

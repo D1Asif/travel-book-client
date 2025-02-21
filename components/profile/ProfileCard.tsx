@@ -18,7 +18,7 @@ export default async function ProfileCard({ profileId }: TProfileCardProps) {
     return (
         <Card>
             <div className="h-[150px] bg-blue-800" />
-            <ProfilePic profilePic={userData?.profilePicture || ""} />
+            <ProfilePic profilePic={userData?.profilePicture || ""} name={userData?.name} />
             <div className="flex flex-col justify-center items-center gap-1 my-4">
                 <h2 className="font-semibold text-xl flex justify-center items-center gap-1">
                     {userData?.username}

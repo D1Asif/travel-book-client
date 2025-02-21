@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { fetchUserData } from "@/actions";
 import { TUser } from "@/actions/action.type";
+import toast from "react-hot-toast";
 
 export default function CreatePostSection() {
     const createPostModalDisclosure = useDisclosure();
@@ -28,7 +29,11 @@ export default function CreatePostSection() {
         <Card className="p-1">
             <CardBody className="p-3 text-small text-default-400 cursor-pointer">
                 <div className="flex gap-4 cursor-pointer"
-                    onClick={createPostModalDisclosure.onOpen}
+                    onClick={sessionUser ? createPostModalDisclosure.onOpen : () => {
+                        toast.error("You need to login to post!", {
+                            icon: "🤔",
+                        })
+                    }}
                 >
                     <Avatar
                         radius="full"

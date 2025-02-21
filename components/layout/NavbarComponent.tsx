@@ -29,6 +29,17 @@ export default function NavbarComponent({ fromAuth }: { fromAuth?: boolean }) {
     const [user, setUser] = useState<TUser | null>(null);
 
     useEffect(() => {
+        if (session) {
+            const currentTime = new Date();
+            const sessionExpiry = new Date(session.expires);
+
+            if (currentTime > sessionExpiry) {
+                signOut();
+            }
+        }
+    }, [session]);
+
+    useEffect(() => {
         const getUser = async () => {
             if (session?.user.data._id) {
                 const res = await fetchUserData(session?.user.data._id);

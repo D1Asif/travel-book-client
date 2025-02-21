@@ -22,7 +22,16 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`${inter.className} min-h-screen`}>
-                <Toaster position="bottom-right" />
+                <Toaster
+                    position="bottom-right"
+                    toastOptions={{
+                        style: {
+                            borderRadius: '10px',
+                            background: '#333',
+                            color: '#fff',
+                        },
+                    }}
+                />
                 <Providers>
                     <NavbarComponent fromAuth={true} />
                     <div className="max-w-3xl px-5 mx-auto my-5 flex-1">

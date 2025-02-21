@@ -9,7 +9,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 
-export default function ProfilePic({ profilePic }: { profilePic: string }) {
+export default function ProfilePic({ profilePic, name }: { profilePic: string, name?: string }) {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [preview, setPreview] = useState<string | null>(null);
     const [isUploading, setIsUploading] = useState(false);
@@ -64,6 +64,10 @@ export default function ProfilePic({ profilePic }: { profilePic: string }) {
                 <Avatar
                     src={profilePic}
                     className="w-20 h-20 rounded-full"
+                    classNames={{
+                        name: "text-2xl"
+                    }}
+                    name={name}
                 />
             )}
             <input

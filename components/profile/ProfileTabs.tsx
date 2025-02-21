@@ -9,11 +9,16 @@ import { useEffect, useState } from "react"
 import { getPosts } from "@/actions"
 import { useParams } from "next/navigation"
 import SubscriptionTab from "./SubscriptionTab"
+import { useSession } from "next-auth/react"
 
 export default function ProfileTabs() {
     const [profilePosts, setProfilePosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const { profileId } = useParams();
+
+    const {data: session} = useSession();
+
+    const isLoggedInUser = session?.user.data._id === profileId;
 
     useEffect(() => {
         const getProfilePosts = async () => {
@@ -36,7 +41,7 @@ export default function ProfileTabs() {
             <Tabs aria-label="Options" size="lg" className="flex justify-center">
                 <Tab key="posts" title="Posts">
                     <div className="mt-3">
-                        <CreatePostSection />
+                        {isLoggedInUser && <CreatePostSection />}
                         <div className="flex flex-col gap-6 mt-8">
                             {loading && (
                                 <div className="my-5 mx-auto">

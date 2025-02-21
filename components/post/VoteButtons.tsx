@@ -2,6 +2,7 @@ import { toggleVotes } from "@/actions";
 import { ArrowFatDown, ArrowFatUp } from "@phosphor-icons/react";
 import { useSession } from "next-auth/react";
 import { useOptimistic } from "react";
+import toast from "react-hot-toast";
 
 type TVoteButtonsProps = {
     postId: string,
@@ -10,7 +11,6 @@ type TVoteButtonsProps = {
 }
 
 export default function VoteButtons({ postId, upVotes, downVotes }: TVoteButtonsProps) {
-    console.log(postId, upVotes, downVotes);
     const { data: session } = useSession();
     const loggedInUserId = session?.user.data._id;
 
@@ -45,6 +45,11 @@ export default function VoteButtons({ postId, upVotes, downVotes }: TVoteButtons
     );
 
     const handleVote = async (voteType: "up" | "down") => {
+        if (!loggedInUserId) {
+            return toast.error("You need to login to vote!", {
+                icon: "🤔",
+            })
+        }
         updateOptimisticVotes(voteType);
         await toggleVotes(voteType, postId);
     };
@@ -52,12 +57,12 @@ export default function VoteButtons({ postId, upVotes, downVotes }: TVoteButtons
     return (
         <>
             <div className="flex gap-1">
-                <p 
+                <p
                     className="font-semibold text-default-400 text-small cursor-pointer"
                     onClick={() => handleVote("up")}
                 >
-                    <ArrowFatUp 
-                        size={18} 
+                    <ArrowFatUp
+                        size={18}
                         weight="fill"
                         color={optimisticVotes.upVotes.includes(loggedInUserId ?? "") ? "rgb(0 111 238)" : "rgb(113 113 122)"}
                     />
@@ -67,14 +72,14 @@ export default function VoteButtons({ postId, upVotes, downVotes }: TVoteButtons
                 </p>
             </div>
             <div className="flex gap-1">
-                <p 
+                <p
                     className="font-semibold text-small cursor-pointer"
                     onClick={() => handleVote("down")}
                 >
                     <ArrowFatDown
                         size={18}
                         weight="fill"
-                        color={optimisticVotes.downVotes.includes(loggedInUserId ?? "") ? "rgb(0 111 238)" : "rgb(113 113 122)"} 
+                        color={optimisticVotes.downVotes.includes(loggedInUserId ?? "") ? "rgb(0 111 238)" : "rgb(113 113 122)"}
                     />
                 </p>
                 <p className=" text-default-400 text-small">

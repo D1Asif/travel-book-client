@@ -1,6 +1,6 @@
 import { fetchUserData } from "@/actions";
 import { auth } from "@/auth";
-import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Input } from "@heroui/react";
+import { Avatar, Card, CardBody, CardFooter, CardHeader, Input } from "@heroui/react";
 import Link from "next/link";
 
 type TAuthor = {

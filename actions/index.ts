@@ -72,9 +72,9 @@ export async function getPosts(params = {}) {
 };
 
 export async function getPostById(postId: string) {
-    const res = await fetch(`${process.env.API_URL}/posts/${postId}`);
+    const res = await fetch(`${process.env.API_URL}/posts/${postId}`, {cache: "no-store"});
     const post = await res.json();
-    return post;
+    return post.data;
 }
 
 export async function createNewPost(postData: TPost) {

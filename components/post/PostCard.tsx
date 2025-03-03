@@ -8,10 +8,12 @@ import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
 import { useSession } from "next-auth/react"
 import VoteButtons from "./VoteButtons";
+import { useParams } from "next/navigation";
 
 export default function PostCard({ postData }: { postData: TPost }) {
     const { data: session } = useSession();
     const isOwnPost = session?.user?.data?._id === postData?.author?._id;
+    const { postId } = useParams();
 
     return (
         <Card className="p-1">
@@ -37,7 +39,7 @@ export default function PostCard({ postData }: { postData: TPost }) {
                     )
                 }
             </CardHeader>
-            <CardBody className="px-3 py-0 text-small text-default-400 cursor-pointer">
+            <CardBody className="px-3 py-0 text-medium text-default-500 cursor-pointer">
                 <Link href={`/posts/${postData._id}`}>
                     <div className="truncate" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(postData?.content) }}>
                     </div>
@@ -69,9 +71,15 @@ export default function PostCard({ postData }: { postData: TPost }) {
                     <p className="font-semibold text-default-400 text-small">
                         {postData?.comments?.length}
                     </p>
-                    <Link href={`/posts/${postData?._id}`} className="text-default-400 text-small">Comments</Link>
+                    {postId ? (
+                        <div className="text-default-400 text-small">
+                            Comments
+                        </div>
+                    ) : (
+                        <Link href={`/posts/${postData?._id}`} className="text-default-400 text-small">Comments</Link>
+                    )}
                 </div>
             </CardFooter>
-        </Card>
+        </Card >
     );
 }

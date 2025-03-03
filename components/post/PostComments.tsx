@@ -64,41 +64,47 @@ export default async function PostComments({ postData }: { postData: TPostData }
                     )
                 }
 
-                <div className="mt-5 space-y-4">
-                    {
-                        postData.comments.map((comment) => (
-                            <div
-                                key={comment._id}
-                                className="flex gap-3 items-start"
-                            >
-                                <Link
-                                    href={`/profile/${comment?.author?._id}`}
-                                    className="mt-1"
-                                >
-                                    <Avatar
-                                        isBordered
-                                        radius="full"
-                                        size="md"
-                                        src={comment?.author?.profilePicture || ""} name={comment?.author?.name}
-                                    />
-                                </Link>
-                                <Card className="px-4 pt-3 pb-2 bg-default-100">
-                                    <Link href={`/profile/${comment?.author?._id}`}>
-                                        <h4 className="text-small font-semibold leading-none text-default-600">
-                                            {comment?.author?.name}
-                                        </h4>
-                                    </Link>
-                                    <div className="text-medium text-default-500">
-                                        {comment.content}
+                {
+                    postData?.comments.length === 0 ? (
+                        !loggedInUser && <div className="text-medium">No comments in this post yet.</div>
+                    ) : (
+                        <div className={`space-y-4 ${loggedInUser ? "mt-4" : ""}`}>
+                            {
+                                postData.comments.map((comment) => (
+                                    <div
+                                        key={comment._id}
+                                        className="flex gap-3 items-start"
+                                    >
+                                        <Link
+                                            href={`/profile/${comment?.author?._id}`}
+                                            className="mt-1"
+                                        >
+                                            <Avatar
+                                                isBordered
+                                                radius="full"
+                                                size="md"
+                                                src={comment?.author?.profilePicture || ""} name={comment?.author?.name}
+                                            />
+                                        </Link>
+                                        <Card className="px-4 pt-3 pb-2 bg-default-100">
+                                            <Link href={`/profile/${comment?.author?._id}`}>
+                                                <h4 className="text-small font-semibold leading-none text-default-600">
+                                                    {comment?.author?.name}
+                                                </h4>
+                                            </Link>
+                                            <div className="text-medium text-default-500">
+                                                {comment.content}
+                                            </div>
+                                        </Card>
+                                        <div className="self-center cursor-pointer rounded-full">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#616161" viewBox="0 0 256 256"><path d="M144,128a16,16,0,1,1-16-16A16,16,0,0,1,144,128ZM60,112a16,16,0,1,0,16,16A16,16,0,0,0,60,112Zm136,0a16,16,0,1,0,16,16A16,16,0,0,0,196,112Z"></path></svg>
+                                        </div>
                                     </div>
-                                </Card>
-                                <div className="self-center cursor-pointer rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#616161" viewBox="0 0 256 256"><path d="M144,128a16,16,0,1,1-16-16A16,16,0,0,1,144,128ZM60,112a16,16,0,1,0,16,16A16,16,0,0,0,60,112Zm136,0a16,16,0,1,0,16,16A16,16,0,0,0,196,112Z"></path></svg>
-                                </div>
-                            </div>
-                        ))
-                    }
-                </div>
+                                ))
+                            }
+                        </div>
+                    )
+                }
             </CardBody>
             <CardFooter />
         </Card >

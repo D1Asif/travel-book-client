@@ -19,6 +19,8 @@ export const userSignup = async (userData: TUserData) => {
 }
 
 export async function fetchUserData(profileId: string): Promise<TUser | null> {
+    if (profileId === "") return null;
+
     const res = await fetch(`${process.env.API_URL}/users/${profileId}`);
     const user = await res.json();
 

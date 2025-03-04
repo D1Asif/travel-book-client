@@ -1,7 +1,9 @@
 import { fetchUserData } from "@/actions";
 import { auth } from "@/auth";
-import { Avatar, Card, CardBody, CardFooter, CardHeader, Input } from "@heroui/react";
+import { Avatar, Card, CardBody, CardFooter, CardHeader } from "@heroui/react";
 import Link from "next/link";
+import CommentInput from "../comment/CommentInput";
+import CommentDropdown from "../comment/CommentDropdown";
 
 type TAuthor = {
     _id: string;
@@ -15,6 +17,8 @@ type TComment = {
     _id: string;
     author: TAuthor;
     content: string;
+    createdAt: string;
+    updatedAt: string;
 };
 
 type TPostData = {
@@ -42,28 +46,7 @@ export default async function PostComments({ postData }: { postData: TPostData }
                 Comments
             </CardHeader>
             <CardBody className="px-3 py-0 text-small text-default-400">
-                {
-                    session?.user.data._id && (
-                        <div className="flex gap-3">
-                            <Avatar
-                                radius="full"
-                                size="md"
-                                src={loggedInUser?.profilePicture}
-                                name={loggedInUser?.name}
-                                classNames={{
-                                    base: "w-11 h-10",
-                                }}
-                                className="[&>*]:opacity-100"
-                            />
-                            <Input
-                                size="lg"
-                                type="text"
-                                placeholder={"Comment as " + loggedInUser?.name}
-                            />
-                        </div>
-                    )
-                }
-
+                <CommentInput loggedInUser={loggedInUser ?? undefined} postId={postData._id} />
                 {
                     postData?.comments.length === 0 ? (
                         !loggedInUser && <div className="text-medium">No comments in this post yet.</div>
@@ -86,18 +69,22 @@ export default async function PostComments({ postData }: { postData: TPostData }
                                                 src={comment?.author?.profilePicture || ""} name={comment?.author?.name}
                                             />
                                         </Link>
-                                        <Card className="px-4 pt-3 pb-2 bg-default-100">
-                                            <Link href={`/profile/${comment?.author?._id}`}>
-                                                <h4 className="text-small font-semibold leading-none text-default-600">
-                                                    {comment?.author?.name}
-                                                </h4>
-                                            </Link>
-                                            <div className="text-medium text-default-500">
-                                                {comment.content}
+                                        <div>
+                                            <div className="flex items-center gap-2">
+                                                <Card className="px-4 pt-3 pb-2 bg-default-100">
+                                                    <Link href={`/profile/${comment?.author?._id}`}>
+                                                        <h4 className="text-small font-semibold leading-none text-default-600">
+                                                            {comment?.author?.name}
+                                                        </h4>
+                                                    </Link>
+                                                    <div className="text-medium text-default-500">
+                                                        {comment.content}
+                                                    </div>
+                                                </Card>
+                                                <CommentDropdown />
                                             </div>
-                                        </Card>
-                                        <div className="self-center cursor-pointer rounded-full">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#616161" viewBox="0 0 256 256"><path d="M144,128a16,16,0,1,1-16-16A16,16,0,0,1,144,128ZM60,112a16,16,0,1,0,16,16A16,16,0,0,0,60,112Zm136,0a16,16,0,1,0,16,16A16,16,0,0,0,196,112Z"></path></svg>
+
+                                            <p className="mt-1">{comment?.createdAt || "5 mins"}</p>
                                         </div>
                                     </div>
                                 ))

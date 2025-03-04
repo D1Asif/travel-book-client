@@ -9,6 +9,7 @@ import DOMPurify from "isomorphic-dompurify";
 import { useSession } from "next-auth/react"
 import VoteButtons from "./VoteButtons";
 import { useParams } from "next/navigation";
+import { formatTime } from "@/lib/utils";
 
 export default function PostCard({ postData }: { postData: TPost }) {
     const { data: session } = useSession();
@@ -18,19 +19,24 @@ export default function PostCard({ postData }: { postData: TPost }) {
     return (
         <Card className="p-1">
             <CardHeader className="justify-between">
-                <div className="flex gap-5">
+                <div className="flex gap-3">
                     <Link href={`/profile/${postData?.author?._id}`}>
                         <Avatar isBordered radius="full" size="md" src={postData?.author?.profilePicture || ""} name={postData?.author?.name} />
                     </Link>
-                    <div className="flex flex-col gap-1 items-start justify-center">
-                        <Link href={`/profile/${postData?.author?._id}`}>
-                            <h4 className="text-small font-semibold leading-none text-default-600">{postData?.author?.name}</h4>
-                        </Link>
-                        <Link href={`/profile/${postData?.author?._id}`}>
-                            <h5 className="text-small tracking-tight text-default-400">
-                                @{postData?.author?.username}
-                            </h5>
-                        </Link>
+                    <div className="flex flex-col items-start justify-center">
+                        <div className="flex gap-2 items-center">
+                            <Link href={`/profile/${postData?.author?._id}`}>
+                                <h4 className="text-small font-semibold leading-none text-default-600">{postData?.author?.name}</h4>
+                            </Link>
+                            <Link href={`/profile/${postData?.author?._id}`}>
+                                <h5 className="text-small tracking-tight text-default-400">
+                                    @{postData?.author?.username}
+                                </h5>
+                            </Link>
+                        </div>
+                        <p className="text-small tracking-tight text-default-400">
+                            {formatTime(postData.createdAt)}
+                        </p>
                     </div>
                 </div>
                 {

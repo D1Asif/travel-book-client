@@ -26,11 +26,12 @@ export default function CreatePostModal({ editingPostId, disclosure }: TCreatePo
         const getPost = async () => {
             if (!editingPostId) return;
 
-            const result = await getPostById(editingPostId);
-            if (result.success) {
-                setContent(result.data.content);
-                setImagePreview(result.data.images?.[0] ?? null);
-                setIsPremium(result.data.isPremium);
+            const post = await getPostById(editingPostId);
+            
+            if (post) {
+                setContent(post.content);
+                setImagePreview(post.images?.[0] ?? null);
+                setIsPremium(post.isPremium);
             }
         }
         getPost();

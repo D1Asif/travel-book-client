@@ -74,7 +74,7 @@ export async function getPosts(params = {}) {
 };
 
 export async function getPostById(postId: string) {
-    const res = await fetch(`${process.env.API_URL}/posts/${postId}`, {cache: "no-store"});
+    const res = await fetch(`${process.env.API_URL}/posts/${postId}`, { cache: "no-store" });
     const post = await res.json();
     return post.data;
 }
@@ -239,5 +239,46 @@ export async function toggleVotes(voteType: "up" | "down", postId: string) {
     } catch (error) {
         console.log(error);
         return { success: false, error: "Failed to update vote status" };
+    }
+}
+
+export async function createNewComment(content: string, postId: string) {
+    try {
+        const session = await auth();
+        const url = `${process.env.API_URL}/comments`;
+
+        if (!session?.user.token) {
+            return { success: false }
+        }
+
+        const res = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user.token}`
+            },
+            body: JSON.stringify({
+                postId,
+                content
+            })
+        });
+
+        const result = await res.json();
+
+        if (res.status === 200) {
+            revalidatePath(`/posts/${postId}`);
+            return {
+                success: true,
+                message: "Comment successfully created"
+            }
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            message: "Comment failed"
+        }
     }
 }

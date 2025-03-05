@@ -1,9 +1,8 @@
 import { fetchUserData } from "@/actions";
 import { auth } from "@/auth";
-import { Avatar, Card, CardBody, CardFooter, CardHeader } from "@heroui/react";
-import Link from "next/link";
+import { Card, CardBody, CardFooter, CardHeader } from "@heroui/react";
 import CommentInput from "../comment/CommentInput";
-import CommentDropdown from "../comment/CommentDropdown";
+import SingleComment from "../comment/SingleComment";
 
 type TAuthor = {
     _id: string;
@@ -13,7 +12,7 @@ type TAuthor = {
     isVerifiedUser: boolean;
 };
 
-type TComment = {
+export type TComment = {
     _id: string;
     author: TAuthor;
     content: string;
@@ -54,39 +53,11 @@ export default async function PostComments({ postData }: { postData: TPostData }
                         <div className={`space-y-4 ${loggedInUser ? "mt-4" : ""}`}>
                             {
                                 postData.comments.map((comment) => (
-                                    <div
+                                    <SingleComment
                                         key={comment._id}
-                                        className="flex gap-3 items-start"
-                                    >
-                                        <Link
-                                            href={`/profile/${comment?.author?._id}`}
-                                            className="mt-1"
-                                        >
-                                            <Avatar
-                                                isBordered
-                                                radius="full"
-                                                size="md"
-                                                src={comment?.author?.profilePicture || ""} name={comment?.author?.name}
-                                            />
-                                        </Link>
-                                        <div>
-                                            <div className="flex items-center gap-2">
-                                                <Card className="px-4 pt-3 pb-2 bg-default-100">
-                                                    <Link href={`/profile/${comment?.author?._id}`}>
-                                                        <h4 className="text-small font-semibold leading-none text-default-600">
-                                                            {comment?.author?.name}
-                                                        </h4>
-                                                    </Link>
-                                                    <div className="text-medium text-default-500">
-                                                        {comment.content}
-                                                    </div>
-                                                </Card>
-                                                <CommentDropdown />
-                                            </div>
-
-                                            <p className="mt-1">{comment?.createdAt || "5 mins"}</p>
-                                        </div>
-                                    </div>
+                                        comment={comment}
+                                        postId={postData._id}
+                                    />
                                 ))
                             }
                         </div>

@@ -135,7 +135,7 @@ export async function UpdatePost(editingPostId: string, postData: Partial<TPost>
         const result = await res.json();
 
         if (res.status === 200) {
-            revalidatePath("/posts");
+            revalidatePath(`/posts/${editingPostId}`);
             return {
                 success: true,
                 message: "Post updated successfully"
@@ -279,6 +279,77 @@ export async function createNewComment(content: string, postId: string) {
         return {
             success: false,
             message: "Comment failed"
+        }
+    }
+}
+
+export async function updateComment(content: string, commentId: string) {
+    const session = await auth();
+
+    try {
+        const url = `${process.env.API_URL}/comments/${commentId}`;
+
+        const res = await fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user.token}`
+            },
+            body: JSON.stringify({
+                content
+            })
+        });
+
+        const result = await res.json();
+
+        if (res.status === 200) {
+            revalidatePath(`/comments/${commentId}`);
+            return {
+                success: true,
+                message: "Comment updated successfully"
+            }
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            message: "Comment update failed!"
+        }
+    }
+}
+
+export async function deleteComment(commentId: string, postId: string) {
+    const session = await auth();
+
+    try {
+        const url = `${process.env.API_URL}/comments/${commentId}`;
+
+        const res = await fetch(url, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user.token}`
+            },
+        });
+
+        const result = await res.json();
+
+        if (res.status === 200) {
+            revalidatePath(`/posts/${postId}`);
+            return {
+                success: true,
+                message: "Comment deleted successfully"
+            }
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            message: "Comment deletion failed!"
         }
     }
 }

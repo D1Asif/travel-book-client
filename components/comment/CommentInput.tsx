@@ -2,7 +2,7 @@
 
 import { createNewComment } from "@/actions";
 import { TUser } from "@/actions/action.type";
-import { Avatar, Input } from "@heroui/react";
+import { Avatar, Textarea } from "@heroui/react";
 import { PaperPlaneRight } from "@phosphor-icons/react";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -31,7 +31,7 @@ export default function CommentInput({ loggedInUser, postId }: TCommentInputProp
         <>
             {
                 loggedInUser && (
-                    <div className="flex gap-3 relative">
+                    <div className="flex gap-3">
                         <Avatar
                             radius="full"
                             size="md"
@@ -42,19 +42,23 @@ export default function CommentInput({ loggedInUser, postId }: TCommentInputProp
                             }}
                             className="[&>*]:opacity-100"
                         />
-                        <Input
+                        <Textarea
                             size="lg"
                             type="text"
+                            minRows={1}
                             placeholder={"Comment as " + loggedInUser?.name}
                             value={commentText}
                             onChange={(e) => setCommentText(e.target.value)}
+                            endContent={
+                                <button
+                                    className={commentText ? "text-primary-500" : ""}
+                                    onClick={handleSubmitComment}
+                                    disabled={!commentText}
+                                >
+                                    <PaperPlaneRight size={24} weight="fill" />
+                                </button>
+                            }
                         />
-                        <div
-                            className="absolute right-4 top-3 cursor-pointer"
-                            onClick={handleSubmitComment}
-                        >
-                            <PaperPlaneRight size={24} weight="fill" />
-                        </div>
                     </div>
                 )
             }

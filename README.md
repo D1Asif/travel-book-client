@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Travel Book
+It's a social media app to share contents related to traveling. Live link: [Travel Book](https://travel-book-client.vercel.app/)
 
-## Getting Started
+Backend repository: [Travel Book Backend Github Repo](https://github.com/D1Asif/travel-book-server)
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This web application is a **social media platform for travel content**, enabling users to share, discover, and engage with travel-related posts. Below are the key features:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🔑 Authentication
+- Secure **JWT-based authentication** using NextAuth.js 
+- Email and password-based authentication  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 📰 Post Feed
+- Users can **create, edit, and delete posts** with rich-text formatting  
+- Supports **images** in posts  
+- Infinite scrolling for seamless content browsing  (coming soon)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 👍 Upvote & Downvote System
+- Users can **upvote and downvote** posts to promote valuable content  
+- Sorting options based on popularity and engagement (coming soon) 
 
-## Learn More
+### 🔎 Search & Filter
+- **Debounced search** for real-time content discovery (coming soon)
+- Filters for sorting posts by **latest, trending, or most upvoted**  
 
-To learn more about Next.js, take a look at the following resources:
+### 👤 User Profile Management
+- Customizable user profiles with **avatars, bio, personal information**  
+- View & follow/unfollow other users’ profiles and travel contributions  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 📊 Dashboard (coming soon)
+- **User dashboard** to track personal activity, saved posts, and engagement  
+- Admin dashboard for managing content and users (if applicable)  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 💳 Subscription & Premium Access (coming soon)
+- **Subscription model** for exclusive travel content  
+- Premium users can access **exclusive posts and perks**  
 
-## Deploy on Vercel
+This app provides a **feature-rich and engaging platform** for travel enthusiasts to connect and share experiences. 🌍✈️  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Technologies Used
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is built using modern web technologies to ensure high performance, security, and scalability. Below are the key technologies used:  
+
+- **[Next.js 14](https://nextjs.org/)** – A React framework for server-side rendering, static site generation, and optimized performance.  
+- **[React 18](https://react.dev/)** – A declarative JavaScript library for building user interfaces.  
+- **[TypeScript](https://www.typescriptlang.org/)** – A strongly typed programming language that enhances JavaScript with static typing.  
+- **[NextAuth.js](https://next-auth.js.org/)** – A powerful authentication solution for handling OAuth, credentials, and JWT-based authentication.  
+- **[React Hook Form](https://react-hook-form.com/)** – A performant form management library with validation support.  
+- **[Zod](https://zod.dev/)** – A TypeScript-first schema validation library for input validation.  
+- **[Tailwind CSS](https://tailwindcss.com/)** – A utility-first CSS framework for building responsive and customizable UIs.  
+- **[Framer Motion](https://www.framer.com/motion/)** – A library for animations and smooth UI interactions.  
+- **[Tiptap](https://tiptap.dev/)** – A headless rich-text editor framework with various extensions.  
+- **[Recharts](https://recharts.org/)** – A charting library for data visualization.  
+- **[JSON Web Tokens (JWT)](https://jwt.io/)** – Secure authentication using stateless token-based authentication.  
+- **[DOMPurify](https://github.com/cure53/DOMPurify)** – A library for sanitizing HTML and preventing XSS attacks.  
+
+Additionally, **ESLint** and **Prettier** are used for code linting and formatting to maintain code quality. 

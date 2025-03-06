@@ -1,9 +1,10 @@
 import FeedComponent from "@/components/home/FeedComponent";
 
-export default function HomePage() {
+export default function HomePage({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
+  const { searchTerm, sort } = searchParams;
   return (
     <div>
-      <FeedComponent />
+      <FeedComponent searchTerm={searchTerm} sort={sort} />
     </div>
   );
 }

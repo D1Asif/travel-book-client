@@ -26,8 +26,17 @@ export type TPost = {
     __v: number;
 };
 
-export default async function FeedComponent() {
-    const posts = await getPosts();
+type TFeedComponentProps = {
+    searchTerm?: string,
+    sort?: string
+}
+
+export default async function FeedComponent({ searchTerm, sort }: TFeedComponentProps) {
+    const query: Record<string, any> = {};
+    if (searchTerm) query.searchTerm = searchTerm;
+    if (sort) query.sort = sort;
+
+    const posts = await getPosts(query);
 
     return (
         <>
@@ -38,13 +47,21 @@ export default async function FeedComponent() {
                 <h3 className="text-2xl">Posts</h3>
                 <FeedActions />
             </div>
-            <div className="flex flex-col gap-6 mt-8">
-                {
-                    posts?.data.map((postData: TPost) => (
-                        <PostCard key={postData?._id} postData={postData} />
-                    ))
-                }
-            </div>
+            {
+                posts?.data?.length === 0 ? (
+                    <div className="mt-10 text-large flex justify-center">
+                        <p>No posts found!</p>
+                    </div>
+                ) : (
+                    <div className="flex flex-col gap-6 mt-8">
+                        {
+                            posts?.data.map((postData: TPost) => (
+                                <PostCard key={postData?._id} postData={postData} />
+                            ))
+                        }
+                    </div>
+                )
+            }
         </>
     )
 }

@@ -1,5 +1,9 @@
 # Travel Book
-It's a social media app to share contents related to traveling. Live link: [Travel Book](https://travel-book-client.vercel.app/)
+It's a social media app to share contents related to traveling. 
+
+**Live link:** [Travel Book](https://travel-book-client.vercel.app/) 
+
+Credentials (In case you're lazy to signup): email: johndoe@example.com, password: securepassword
 
 Backend repository: [Travel Book Backend Github Repo](https://github.com/D1Asif/travel-book-server)
 

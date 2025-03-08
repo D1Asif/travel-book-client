@@ -9,7 +9,7 @@ import DOMPurify from "isomorphic-dompurify";
 import { useSession } from "next-auth/react"
 import VoteButtons from "./VoteButtons";
 import { useParams } from "next/navigation";
-import { formatTime } from "@/lib/utils";
+import { formatPostTime } from "@/lib/utils";
 
 export default function PostCard({ postData }: { postData: TPost }) {
     const { data: session } = useSession();
@@ -35,7 +35,7 @@ export default function PostCard({ postData }: { postData: TPost }) {
                             </Link>
                         </div>
                         <p className="text-small tracking-tight text-default-400">
-                            {formatTime(postData.createdAt)}
+                            {formatPostTime(postData.createdAt)}
                         </p>
                     </div>
                 </div>

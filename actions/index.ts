@@ -67,8 +67,16 @@ export async function updateUser(updatedUserData: Partial<TUser>) {
 }
 
 export async function getPosts(params = {}) {
+    const session = await auth();
+    
     const queryString = new URLSearchParams(params).toString();
-    const res = await fetch(`${process.env.API_URL}/posts${queryString ? `?${queryString}` : ""}`, { cache: "no-store" });
+    const res = await fetch(`${process.env.API_URL}/posts${queryString ? `?${queryString}` : ""}`, {
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": session?.user.token ? `Bearer ${session?.user.token}` : ""
+        },
+        cache: "no-store"
+    });
     const posts = await res.json();
     return posts;
 };

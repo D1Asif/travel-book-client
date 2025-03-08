@@ -28,13 +28,15 @@ export type TPost = {
 
 type TFeedComponentProps = {
     searchTerm?: string,
-    sort?: string
+    sort?: string,
+    filter?: string
 }
 
-export default async function FeedComponent({ searchTerm, sort }: TFeedComponentProps) {
+export default async function FeedComponent({ searchTerm, sort, filter }: TFeedComponentProps) {
     const query: Record<string, any> = {};
     if (searchTerm) query.searchTerm = searchTerm;
     if (sort) query.sort = sort;
+    if (filter) query.filter = filter;
 
     const posts = await getPosts(query);
 

@@ -24,7 +24,7 @@ export async function uploadImageToCloudinary(file: File): Promise<string | null
     }
 }
 
-export function formatTime(timestamp: string | number | Date) {
+export function formatPostTime(timestamp: string | number | Date) {
     const date = new Date(timestamp);
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
@@ -52,4 +52,25 @@ export function formatTime(timestamp: string | number | Date) {
     const year = date.getFullYear();
 
     return `${day} ${month} ${year}`;
+}
+
+export function formatCommentTime(timestamp: string | number): string {
+    const now = new Date();
+    const date = new Date(timestamp);
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    const diffInDays = Math.floor(diffInHours / 24);
+    const diffInWeeks = Math.floor(diffInDays / 7);
+    const diffInYears = now.getFullYear() - date.getFullYear();
+
+    if (diffInSeconds < 5) return "Just now";
+    if (diffInSeconds < 60) return `${diffInSeconds}s`;
+    if (diffInMinutes < 60) return `${diffInMinutes}m`;
+    if (diffInHours < 24) return `${diffInHours}h`;
+    if (diffInDays === 1) return "Yesterday";
+    if (diffInDays < 7) return `${diffInDays}d`;
+
+    if (diffInYears === 0) return `${diffInWeeks}w`; // Use weeks for current year
+    return `${diffInYears}y`; // Show years for anything older
 }

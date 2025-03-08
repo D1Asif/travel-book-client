@@ -8,12 +8,13 @@ import { useState } from "react";
 import { PaperPlaneRight } from "@phosphor-icons/react";
 import { updateComment } from "@/actions";
 import toast from "react-hot-toast";
+import { formatCommentTime } from "@/lib/utils";
 
 export default function SingleComment({ comment, postId }: { comment: TComment, postId: string }) {
     const [isEditing, setIsEditing] = useState(false);
     const [commentContent, setCommentContent] = useState(comment.content);
 
-    const handleEditComment = async() => {
+    const handleEditComment = async () => {
         setIsEditing(false);
 
         const res = await updateComment(commentContent, comment._id);
@@ -58,7 +59,7 @@ export default function SingleComment({ comment, postId }: { comment: TComment, 
                                 </button>
                             }
                         />
-                        <button 
+                        <button
                             className="mt-1 font-semibold"
                             onClick={() => {
                                 setCommentContent(comment.content)
@@ -88,7 +89,7 @@ export default function SingleComment({ comment, postId }: { comment: TComment, 
                             />
                         </div>
 
-                        <p className="mt-1">{comment?.createdAt || "5 mins"}</p>
+                        <p className="mt-1">{formatCommentTime(comment?.createdAt) || "5 mins"}</p>
                     </div>
                 )
             }

@@ -22,11 +22,11 @@ This web application is a **social media platform for travel content**, enabling
 
 ### 👍 Upvote & Downvote System
 - Users can **upvote and downvote** posts to promote valuable content  
-- Sorting options based on popularity and engagement (coming soon) 
+- Sorting options based on popularity and engagement
 
 ### 🔎 Search & Filter
-- **Debounced search** for real-time content discovery (coming soon)
-- Filters for sorting posts by **latest, trending, or most upvoted**  
+- **Debounced search** for real-time content discovery
+- Filters for sorting posts by **latest, following, or most upvoted**  
 
 ### 👤 User Profile Management
 - Customizable user profiles with **avatars, bio, personal information**  
@@ -34,7 +34,7 @@ This web application is a **social media platform for travel content**, enabling
 
 ### 📊 Dashboard (coming soon)
 - **User dashboard** to track personal activity, saved posts, and engagement  
-- Admin dashboard for managing content and users (if applicable)  
+- Admin dashboard for managing content and users
 
 ### 💳 Subscription & Premium Access (coming soon)
 - **Subscription model** for exclusive travel content  

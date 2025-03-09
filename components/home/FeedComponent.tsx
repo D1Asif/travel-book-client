@@ -46,7 +46,7 @@ export default async function FeedComponent({ searchTerm, sort, filter }: TFeedC
                 <CreatePostSection />
             </div>
             <div className="flex justify-between">
-                <h3 className="text-2xl">Posts</h3>
+                <h3 className="text-2xl hidden sm:block">Posts</h3>
                 <FeedActions />
             </div>
             {

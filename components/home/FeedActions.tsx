@@ -53,7 +53,7 @@ export default function FeedActions() {
     };
 
     return (
-        <div className="flex gap-4">
+        <div className="flex gap-4 w-full sm:w-auto">
             {/* Search */}
             <Input
                 isClearable

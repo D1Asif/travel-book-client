@@ -49,9 +49,12 @@ export default function CommentInput({ loggedInUser, postId }: TCommentInputProp
                             placeholder={"Comment as " + loggedInUser?.name}
                             value={commentText}
                             onChange={(e) => setCommentText(e.target.value)}
+                            classNames={{
+                                input: "p-1"
+                            }}
                             endContent={
                                 <button
-                                    className={commentText ? "text-primary-500" : ""}
+                                    className={commentText ? "text-primary-500 mt-1" : "mt-1"}
                                     onClick={handleSubmitComment}
                                     disabled={!commentText}
                                 >

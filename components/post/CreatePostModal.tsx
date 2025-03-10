@@ -93,7 +93,7 @@ export default function CreatePostModal({ editingPostId, disclosure }: TCreatePo
 
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="4xl">
-            <ModalContent className="m-6">
+            <ModalContent className="m-6 max-h-screen overflow-y-auto">
                 {(onClose) => (
                     <>
                         <ModalHeader className="flex flex-col gap-1">

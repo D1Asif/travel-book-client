@@ -9,10 +9,12 @@ import { PaperPlaneRight } from "@phosphor-icons/react";
 import { updateComment } from "@/actions";
 import toast from "react-hot-toast";
 import { formatCommentTime } from "@/lib/utils";
+import { useSession } from "next-auth/react";
 
 export default function SingleComment({ comment, postId }: { comment: TComment, postId: string }) {
     const [isEditing, setIsEditing] = useState(false);
     const [commentContent, setCommentContent] = useState(comment.content);
+    const { data: session } = useSession();
 
     const handleEditComment = async () => {
         setIsEditing(false);
@@ -82,14 +84,23 @@ export default function SingleComment({ comment, postId }: { comment: TComment, 
                                     {commentContent}
                                 </div>
                             </Card>
-                            <CommentDropdown
-                                setIsEditing={setIsEditing}
-                                commentId={comment._id}
-                                postId={postId}
-                            />
+                            {session?.user.data._id === comment.author._id && (
+                                <CommentDropdown
+                                    setIsEditing={setIsEditing}
+                                    commentId={comment._id}
+                                    postId={postId}
+                                />
+                            )}
                         </div>
 
-                        <p className="mt-1">{formatCommentTime(comment?.createdAt) || "5 mins"}</p>
+                        <div className="flex gap-3 mt-1">
+                            <p>
+                                {formatCommentTime(comment?.createdAt) || "5 mins"}
+                            </p>
+                            {comment.createdAt !== comment.updatedAt && (
+                                <p>Edited</p>
+                            )}
+                        </div>
                     </div>
                 )
             }

@@ -34,9 +34,16 @@ export default function PostCard({ postData }: { postData: TPost }) {
                                 </h5>
                             </Link>
                         </div>
-                        <p className="text-small tracking-tight text-default-400">
-                            {formatPostTime(postData.createdAt)}
-                        </p>
+                        <div className="flex gap-3">
+                            <p className="text-small text-default-400">
+                                {formatPostTime(postData.createdAt)}
+                            </p>
+                            {postData.createdAt !== postData.updatedAt && (
+                                <p className="text-small text-default-400">
+                                    Edited
+                                </p>
+                            )}
+                        </div>
                     </div>
                 </div>
                 {
@@ -47,7 +54,9 @@ export default function PostCard({ postData }: { postData: TPost }) {
             </CardHeader>
             <CardBody className="px-3 py-0 text-medium text-default-500 cursor-pointer">
                 <Link href={`/posts/${postData._id}`}>
-                    <div className="truncate" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(postData?.content) }}>
+                    <div dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(postData?.content)
+                    }}>
                     </div>
                     <div className="pt-2 space-x-2">
                         {

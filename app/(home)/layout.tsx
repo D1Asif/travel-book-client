@@ -25,7 +25,7 @@ export default function RootLayout({
         <Toaster position="bottom-right" />
         <Providers>
           <NavbarComponent />
-          <div className="max-w-2xl mx-5 md:mx-auto md:w-full py-7">
+          <div className="max-w-2xl mx-5 md:mx-auto md:w-full py-5 sm:py-7">
             {children}
           </div>
         </Providers>

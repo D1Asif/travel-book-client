@@ -38,7 +38,11 @@ This web application is a **social media platform for travel content**, enabling
 
 ### 💳 Subscription & Premium Access (coming soon)
 - **Subscription model** for exclusive travel content  
-- Premium users can access **exclusive posts and perks**  
+- Premium users can access **exclusive posts and perks**
+
+### 🤖 AI features (coming soon)
+- Writing posts with the help of AI
+- AI image generation
 
 This app provides a **feature-rich and engaging platform** for travel enthusiasts to connect and share experiences. 🌍✈️  
 

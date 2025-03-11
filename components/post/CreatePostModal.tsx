@@ -27,7 +27,7 @@ export default function CreatePostModal({ editingPostId, disclosure }: TCreatePo
             if (!editingPostId) return;
 
             const post = await getPostById(editingPostId);
-            
+
             if (post) {
                 setContent(post.content);
                 setImagePreview(post.images?.[0] ?? null);
@@ -91,9 +91,18 @@ export default function CreatePostModal({ editingPostId, disclosure }: TCreatePo
         }
     }
 
+    useEffect(() => {
+        const setVh = () => {
+            document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+        };
+        setVh();
+        window.addEventListener('resize', setVh);
+        return () => window.removeEventListener('resize', setVh);
+    }, []);
+
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="4xl">
-            <ModalContent className="m-6 max-h-screen overflow-y-auto">
+            <ModalContent className="m-6 overflow-y-auto" style={{ maxHeight: 'calc(var(--vh) * 100)' }}>
                 {(onClose) => (
                     <>
                         <ModalHeader className="flex flex-col gap-1">

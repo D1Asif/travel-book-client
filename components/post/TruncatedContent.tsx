@@ -60,7 +60,11 @@ export default function TruncatedContent({ htmlContent, wordLimit = 19, isFromDe
             />
             <span
                 className="cursor-pointer text-primary-400"
-                onClick={() => setExpanded(true)}
+                onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setExpanded(true)
+                }}
             >
                 &nbsp;see more
             </span>

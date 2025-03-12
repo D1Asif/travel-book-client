@@ -5,11 +5,11 @@ import Image from "next/image";
 import PostDropdown from "./PostDropdown";
 import { TPost } from "../home/FeedComponent";
 import Link from "next/link";
-import DOMPurify from "isomorphic-dompurify";
 import { useSession } from "next-auth/react"
 import VoteButtons from "./VoteButtons";
 import { useParams } from "next/navigation";
 import { formatPostTime } from "@/lib/utils";
+import TruncatedContent from "./TruncatedContent";
 
 export default function PostCard({ postData }: { postData: TPost }) {
     const { data: session } = useSession();
@@ -54,10 +54,10 @@ export default function PostCard({ postData }: { postData: TPost }) {
             </CardHeader>
             <CardBody className="px-3 py-0 text-medium text-default-500 cursor-pointer">
                 <Link href={`/posts/${postData._id}`}>
-                    <div dangerouslySetInnerHTML={{
-                        __html: DOMPurify.sanitize(postData?.content)
-                    }}>
-                    </div>
+                    <TruncatedContent
+                        htmlContent={postData?.content}
+                        isFromDetailsPage={!!postId}
+                    />
                     <div className="pt-2 space-x-2">
                         {
                             postData?.tags?.map((tag) => (

@@ -19,6 +19,7 @@
     "@types/jsonwebtoken": "^9.0.7",
     "dompurify": "^3.2.4",
     "framer-motion": "^11.11.9",
+    "html-truncate": "^1.2.2",
     "isomorphic-dompurify": "^2.21.0",
     "jsonwebtoken": "^9.0.2",
     "next": "14.2.15",
@@ -32,6 +33,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/html-truncate": "^1.2.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
